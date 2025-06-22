@@ -22,8 +22,8 @@ h1 {
 }
 
 .task-list {
-  display: flex;
-  flex-direction: column;
+  display: inline-block;
+  flex-direction: row;
   gap: 0.5rem;
 }
 
