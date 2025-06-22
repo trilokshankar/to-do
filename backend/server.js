@@ -9,7 +9,7 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/')
+mongoose.connect('mongodb://localhost:27017/todo')
 .then(()=>console.log("Database is connected"))
 .catch(err=>console.error(err));
 
@@ -21,7 +21,7 @@ app.get("/tasks",async(req,res)=>{
 app.post("/tasks",async(req,res)=>{
     const task=new Task(req.body);
     await task.save();
-    res.json(tasks);
+    res.json(task);
 })
 
 app.put("/tasks/:id",async(req,res)=>{
