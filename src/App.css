@@ -1,38 +1,55 @@
-.App {
+.container {
+  max-width: 600px;
+  margin: auto;
+  padding: 2rem;
+  font-family: sans-serif;
+}
+
+h1 {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.input-area {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.input-area input {
+  flex: 1;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.task-list {
   display: flex;
   flex-direction: column;
+  gap: 0.5rem;
+}
+
+.task-box {
+  background: #f3f3f3;
+  padding: 0.75rem;
+  border-radius: 8px;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 0.5rem;
 }
 
-.App-link {
-  color: #61dafb;
+.task-box input[type="checkbox"] {
+  transform: scale(1.2);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.task-box span {
+  flex: 1;
+}
+
+.task-box .done {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.edit-input {
+  flex: 1;
+  padding: 0.3rem;
 }
