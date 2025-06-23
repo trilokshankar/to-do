@@ -13,25 +13,23 @@ function App() {
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
 
-
   useEffect(() => {
     loadTasks();
   }, []);
 
-
   const loadTasks = async () => {
     const res = await getTasks();
-    setTasks(res);
+    setTasks(Array.isArray(res) ? res : []);
   };
-
 
   const handleAdd = async () => {
-    if (!title.trim() || !date) return;
-    await addTask({ title, date, completed: false });
-    setTitle("");
-    setDate("");
-    loadTasks();
-  };
+    if (title && date) {
+      await addTask({ title, date, completed: false });
+      setTitle("");
+      setDate("");
+      loadTasks();
+    }
+  };  
 
 
   const handleDelete = async (id) => {
@@ -39,28 +37,24 @@ function App() {
     loadTasks();
   };
 
-
-
   const handleToggle = async (task) => {
     await updateTask(task._id, { completed: !task.completed });
     loadTasks();
   };
-  
 
   const handleEdit = async (task, newTitle) => {
     await updateTask(task._id, { ...task, title: newTitle });
     loadTasks();
   };
 
-
-  const filteredTasks = filterDate;
-
+  const filteredTasks = filterDate
+    ? tasks.filter((task) => task.date === filterDate)
+    : tasks;
 
   return (
     <div className="container">
       <h1>To-Do List</h1>
 
-      {/* Task input area */}
       <div className="input-area">
         <input
           type="text"
@@ -68,7 +62,6 @@ function App() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-
         <input
           type="date"
           value={date}
@@ -77,7 +70,6 @@ function App() {
         <button onClick={handleAdd}>Add Task</button>
       </div>
 
-      {/* Filter tasks by date */}
       <div className="filter-area">
         <input
           type="date"
@@ -87,8 +79,6 @@ function App() {
         <button onClick={() => setFilterDate("")}>Clear Filter</button>
       </div>
 
-
-      {/* Display task list */}
       <div className="task-list">
         {filteredTasks.map((task) => (
           <div className="task-box" key={task._id}>
@@ -106,8 +96,6 @@ function App() {
     </div>
   );
 }
-
-
 
 function EditableTitle({ task, onEdit }) {
   const [isEditing, setEditing] = useState(false);
