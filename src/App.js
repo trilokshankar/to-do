@@ -19,18 +19,20 @@ function App() {
 
   const loadTasks = async () => {
     const res = await getTasks();
-    setTasks(Array.isArray(res) ? res : []);
+    const formatted = res.map(task => ({
+      ...task,
+      date: task.date?.slice(0, 10)
+    }));
+    setTasks(formatted);
   };
 
   const handleAdd = async () => {
-    if (title && date) {
-      await addTask({ title, date, completed: false });
-      setTitle("");
-      setDate("");
-      loadTasks();
-    }
-  };  
-
+    if (!title.trim() || !date) return;
+    await addTask({ title, date, completed: false });
+    setTitle("");
+    setDate("");
+    loadTasks();
+  };
 
   const handleDelete = async (id) => {
     await deleteTask(id);
@@ -38,7 +40,10 @@ function App() {
   };
 
   const handleToggle = async (task) => {
-    await updateTask(task._id, { completed: !task.completed });
+    await updateTask(task._id, {
+      ...task,
+      completed: !task.completed,
+    });
     loadTasks();
   };
 
@@ -58,16 +63,17 @@ function App() {
       <div className="input-area">
         <input
           type="text"
-          placeholder="Enter task title"
+          placeholder="Task title..."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
+
         <input
           type="date"
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <button onClick={handleAdd}>Add Task</button>
+        <button onClick={handleAdd}>Add</button>
       </div>
 
       <div className="filter-area">
@@ -89,7 +95,7 @@ function App() {
             />
             <EditableTitle task={task} onEdit={handleEdit} />
             <span className="task-date">{task.date}</span>
-            <button onClick={() => handleDelete(task._id)}>Delete</button>
+            <button onClick={() => handleDelete(task._id)}>delete</button>
           </div>
         ))}
       </div>
@@ -113,12 +119,12 @@ function EditableTitle({ task, onEdit }) {
         value={newTitle}
         onChange={(e) => setNewTitle(e.target.value)}
       />
-      <button onClick={saveEdit}>Save</button>
+      <button onClick={saveEdit}>save</button>
     </>
   ) : (
     <>
       <span className={task.completed ? "done" : ""}>{task.title}</span>
-      <button onClick={() => setEditing(true)}>Edit</button>
+      <button onClick={() => setEditing(true)}>edit</button>
     </>
   );
 }
