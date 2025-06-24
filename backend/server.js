@@ -13,7 +13,11 @@ mongoose.connect("mongodb+srv://user1:task1234@task.v7fw9db.mongodb.net/todo?ret
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
+  app.use(cors({
+    origin: "https://to-do-production-57f6.up.railway.app"
+  }));
 
+  
 app.get("/tasks",async(req,res)=>{
     const task=await Task.find();
     res.json(task);
@@ -43,3 +47,4 @@ app.delete("/tasks/:id",async(req,res)=>{
 app.listen(5000,()=>{
     console.log("Server started on port on 5000");
 })
+
