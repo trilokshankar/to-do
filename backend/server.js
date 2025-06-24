@@ -9,9 +9,10 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/todo')
-.then(()=>console.log("Database is connected"))
-.catch(err=>console.error(err));
+mongoose.connect("mongodb+srv://user1:task1234@task.v7fw9db.mongodb.net/todo?retryWrites=true&w=majority")
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.error(err));
+
 
 app.get("/tasks",async(req,res)=>{
     const task=await Task.find();
