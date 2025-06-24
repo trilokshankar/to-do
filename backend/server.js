@@ -14,8 +14,9 @@ mongoose.connect("mongodb+srv://user1:task1234@task.v7fw9db.mongodb.net/todo?ret
   .catch(err => console.error(err));
 
   app.use(cors({
-    origin: "https://to-do-production-57f6.up.railway.app"
+    origin: "https://to-do-coral-rho.vercel.app"
   }));
+  
 
   
 app.get("/tasks",async(req,res)=>{

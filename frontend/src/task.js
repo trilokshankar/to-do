@@ -1,4 +1,4 @@
-const BASE = "todo-production-c449.up.railway.app/tasks";
+const BASE = "https://todo-production-c449.up.railway.app/tasks";
 
 export const getTasks = () => fetch(BASE).then((res) => res.json());
 
