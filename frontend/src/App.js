@@ -5,20 +5,22 @@ import {
   updateTask,
   deleteTask,
 } from "./task.js";
+import Login from './login.js';
 import "./App.css";
-import "./login.js";
+
 function App() {
+  const [userId, setUserId] = useState(localStorage.getItem("userId"));
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
 
   useEffect(() => {
-    loadTasks();
-  }, []);
+    if (userId) loadTasks();
+  }, [userId]);
 
   const loadTasks = async () => {
-    const res = await getTasks();
+    const res = await getTasks(userId);
     const formatted = res.map(task => ({
       ...task,
       date: task.date?.slice(0, 10)
@@ -28,7 +30,7 @@ function App() {
 
   const handleAdd = async () => {
     if (!title.trim() || !date) return;
-    await addTask({ title, date, completed: false });
+    await addTask({ title, date, completed: false, userId });
     setTitle("");
     setDate("");
     loadTasks();
@@ -40,10 +42,7 @@ function App() {
   };
 
   const handleToggle = async (task) => {
-    await updateTask(task._id, {
-      ...task,
-      completed: !task.completed,
-    });
+    await updateTask(task._id, { ...task, completed: !task.completed });
     loadTasks();
   };
 
@@ -52,13 +51,21 @@ function App() {
     loadTasks();
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("userId");
+    setUserId(null);
+  };
+
   const filteredTasks = filterDate
     ? tasks.filter((task) => task.date === filterDate)
     : tasks;
 
+  if (!userId) return <Login onLogin={setUserId} />;
+
   return (
     <div className="container">
       <h1>To-Do List</h1>
+      <button onClick={handleLogout}>Logout</button>
 
       <div className="input-area">
         <input
@@ -67,7 +74,6 @@ function App() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-
         <input
           type="date"
           value={date}
