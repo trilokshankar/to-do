@@ -7,9 +7,11 @@ const Task = require("./Task");
 const User = require("./user");
 const app = express();
 
-const allowedOrigins = [
-  "https://todo-theta-topaz-38.vercel.app/"
-];
+app.use(cors({
+    origin: "https://todo-theta-topaz-38.vercel.app", 
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  }));
 
 app.use((req, res) => {
     res.status(404).json({ message: "Route not found", url: req.originalUrl });
