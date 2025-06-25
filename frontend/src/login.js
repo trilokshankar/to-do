@@ -5,34 +5,42 @@ function Login({ onLogin }) {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const res = await fetch("https://todo-production-c449.up.railway.app/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const res = await fetch("https://todo-production-c449.up.railway.app/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem("userId", data.userId);
-      onLogin();
-    } else {
-      alert(data.error || "Login failed");
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("userId", data.userId);
+        onLogin();
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      alert("Login error: " + error.message);
     }
   };
 
   const handleSignup = async () => {
-    const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const data = await res.json();
-    if (res.ok) {
-      localStorage.setItem("userId", data.userId);
-      onLogin();
-    } else {
-      alert(data.error || "Signup failed");
+      const data = await res.json();
+      if (res.ok) {
+        localStorage.setItem("userId", data.userId);
+        onLogin();
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (error) {
+      alert("Signup error: " + error.message);
     }
   };
 
