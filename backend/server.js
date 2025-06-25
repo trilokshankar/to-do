@@ -4,20 +4,21 @@ const cors = require("cors");
 require("dotenv").config();
 
 const Task = require("./Task");
-const User = require("./user"); 
-
+const User = require("./user");
 const app = express();
+
 app.use(cors({
-    origin: "https://to-do-coral-rho.vercel.app",
-    credentials: true
+  origin: "https://to-do-coral-rho.vercel.app",
+  credentials: true
 }));
+
 app.use(express.json());
 
 mongoose.connect("mongodb+srv://user1:task1234@task.v7fw9db.mongodb.net/todo?retryWrites=true&w=majority")
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
-
+  
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
@@ -28,7 +29,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
+app.post("/signup", async (req, res) => {
   const { username, password } = req.body;
   const exists = await User.findOne({ username });
   if (exists) return res.status(400).json({ message: "User already exists" });
@@ -37,15 +38,11 @@ app.post("/register", async (req, res) => {
   res.json({ success: true });
 });
 
-
-
 app.get("/tasks", async (req, res) => {
   const { userId } = req.query;
   const tasks = await Task.find({ userId });
   res.json(tasks);
 });
-
-
 
 app.post("/tasks", async (req, res) => {
   const { title, date, completed, userId } = req.body;
@@ -53,8 +50,6 @@ app.post("/tasks", async (req, res) => {
   await task.save();
   res.json(task);
 });
-
-
 
 app.put("/tasks/:id", async (req, res) => {
   const task = await Task.findById(req.params.id);
@@ -65,14 +60,11 @@ app.put("/tasks/:id", async (req, res) => {
   res.json(task);
 });
 
-
-
 app.delete("/tasks/:id", async (req, res) => {
   const task = await Task.findById(req.params.id);
   await task.deleteOne();
   res.json(task);
 });
-
 
 app.listen(5000, () => {
   console.log("Server started on port 5000");
