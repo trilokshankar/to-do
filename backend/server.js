@@ -8,7 +8,7 @@ const User = require("./user");
 const app = express();
 
 const allowedOrigins = [
-  "https://to-do-coral-rho.vercel.app"
+  "https://todo-theta-topaz-38.vercel.app/"
 ];
 
 app.use((req, res) => {
