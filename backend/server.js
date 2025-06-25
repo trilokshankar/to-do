@@ -7,24 +7,17 @@ const Task = require("./Task");
 const User = require("./user");
 const app = express();
 
-app.use(cors({
-    origin: "https://todo-theta-topaz-38.vercel.app", 
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-  }));
+const allowedOrigins = ["https://todo-theta-topaz-38.vercel.app"];
 
-app.use((req, res) => {
-    res.status(404).json({ message: "Route not found", url: req.originalUrl });
-  });
-  
 app.use(cors({
-  origin: function (origin, callback) {
+  origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
@@ -80,6 +73,10 @@ app.delete("/tasks/:id", async (req, res) => {
   const task = await Task.findById(req.params.id);
   await task.deleteOne();
   res.json(task);
+});
+
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found", url: req.originalUrl });
 });
 
 const PORT = process.env.PORT || 5000;
