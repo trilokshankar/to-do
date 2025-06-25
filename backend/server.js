@@ -1,75 +1,73 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const cors = require("cors");
-require("dotenv").config();
+import React, { useState } from "react";
 
-const Task = require("./Task");
-const User = require("./user");
+function Login({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-const app = express();
+  const handleLogin = async () => {
+    try {
+      const res = await fetch("https://todo-production-c449.up.railway.app/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-app.use(cors({
-  origin: "https://todo-theta-topaz-38.vercel.app",
-  credentials: true
-}));
+      const data = await res.json();
+      if (res.ok && data.userId) {
+        localStorage.setItem("userId", data.userId);
+        onLogin(data.userId); 
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      alert("Login error: " + error.message);
+    }
+  };
 
-app.use(express.json());
+  const handleSignup = async () => {
+    if (!username || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
+    try {
+      const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-mongoose.connect("mongodb+srv://user1:task1234@task.v7fw9db.mongodb.net/todo?retryWrites=true&w=majority")
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.error(err));
+      const data = await res.json();
+      console.log("Signup response:", data);
 
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-  const user = await User.findOne({ username, password });
-  if (user) {
-    res.json({ success: true, userId: user._id });
-  } else {
-    res.status(401).json({ success: false, message: "User not found" });
-  }
-});
+      if (res.ok && data.userId) {
+        localStorage.setItem("userId", data.userId);
+        onLogin(data.userId); 
+      } else {
+        alert(data.message || "Signup failed");
+      }
+    } catch (error) {
+      alert("Signup error: " + error.message);
+    }
+  };
 
-app.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
-  const exists = await User.findOne({ username });
-  if (exists) return res.status(400).json({ message: "User already exists" });
-  const newUser = new User({ username, password });
-  await newUser.save();
-  res.json({ success: true, userId: newUser._id }); // ✅ Added userId here
-});
+  return (
+    <div className="login-box">
+      <h2>Login / Signup</h2>
+      <input
+        placeholder="Username"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <input
+        placeholder="Password"
+        value={password}
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <button onClick={handleLogin}>Login</button>
+      <button onClick={handleSignup}>Signup</button>
+    </div>
+  );
+}
 
-app.get("/tasks", async (req, res) => {
-  const { userId } = req.query;
-  const tasks = await Task.find({ userId });
-  res.json(tasks);
-});
-
-app.post("/tasks", async (req, res) => {
-  const { title, date, completed, userId } = req.body;
-  const task = new Task({ title, date, completed, userId });
-  await task.save();
-  res.json(task);
-});
-
-app.put("/tasks/:id", async (req, res) => {
-  const task = await Task.findById(req.params.id);
-  task.title = req.body.title ?? task.title;
-  task.date = req.body.date ?? task.date;
-  task.completed = req.body.completed ?? task.completed;
-  await task.save();
-  res.json(task);
-});
-
-app.delete("/tasks/:id", async (req, res) => {
-  const task = await Task.findById(req.params.id);
-  await task.deleteOne();
-  res.json(task);
-});
-
-app.get("/", (req, res) => {
-  res.send("API is running");
-});
-
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
-});
+export default Login;
