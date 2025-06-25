@@ -43,7 +43,7 @@ function Login({ onLogin }) {
         localStorage.setItem("userId", data.userId);
         onLogin();
       } else {
-        alert(data.message || "Signup");
+        alert(data.message || "Signup Successfull now u can login");
       }
     } catch (error) {
       alert("Signup error: " + error.message);
