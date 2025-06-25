@@ -29,15 +29,17 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
-  const exists = await User.findOne({ username });
-  if (exists) return res.status(400).json({ message: "User already exists" });
-  const newUser = new User({ username, password });
-  await newUser.save();
-  res.json({ success: true });
-});
-
+app.post("/register", async (req, res) => {
+    const { username, password } = req.body;
+    const exists = await User.findOne({ username });
+    if (exists) return res.status(400).json({ message: "User already exists" });
+  
+    const newUser = new User({ username, password });
+    await newUser.save();
+  
+    res.json({ success: true, userId: newUser._id });
+  });
+  
 app.get("/tasks", async (req, res) => {
   const { userId } = req.query;
   const tasks = await Task.find({ userId });

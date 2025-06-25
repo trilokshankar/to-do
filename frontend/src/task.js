@@ -1,4 +1,5 @@
-const BASE = "https://todo-production-c449.up.railway.app";
+const BASE = "http://localhost:5000";
+
 
 export const getTasks = (userId) =>
   fetch(`${BASE}/tasks?userId=${userId}`).then((res) => res.json());

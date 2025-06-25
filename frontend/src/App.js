@@ -4,8 +4,8 @@ import {
   addTask,
   updateTask,
   deleteTask,
-} from "./task.js";
-import Login from './login.js'
+} from "./task";
+import Login from "./login.js"
 import "./App.css";
 
 function App() {
@@ -60,7 +60,7 @@ function App() {
     ? tasks.filter((task) => task.date === filterDate)
     : tasks;
 
-  if (!userId) return <Login onLogin={setUserId} />;
+  if (!userId) return <Login onLogin={(id) => setUserId(id)} />;
 
   return (
     <div className="container">

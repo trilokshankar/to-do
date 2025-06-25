@@ -6,7 +6,7 @@ function Login({ onLogin }) {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("https://todo-production-c449.up.railway.app/login", {
+        const res = await fetch("http://localhost:5000/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -26,12 +26,12 @@ function Login({ onLogin }) {
 
   const handleSignup = async () => {
     try {
-      const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
+      const res = await fetch("http://localhost:5000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("userId", data.userId);
@@ -43,7 +43,7 @@ function Login({ onLogin }) {
       alert("Signup error: " + error.message);
     }
   };
-
+  
   return (
     <div className="login-box">
       <h2>Login / Signup</h2>
