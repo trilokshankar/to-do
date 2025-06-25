@@ -6,7 +6,7 @@ function Login({ onLogin }) {
 
   const handleLogin = async () => {
     try {
-        const res = await fetch("http://localhost:5000/login", {
+      const res = await fetch("https://todo-production-c449.up.railway.app/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
@@ -25,15 +25,21 @@ function Login({ onLogin }) {
   };
 
   const handleSignup = async () => {
+    if (!username || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
     try {
-      const res = await fetch("http://localhost:5000/signup", {
+      const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
   
       const data = await res.json();
-      if (res.ok) {
+      console.log("Signup response:", data);
+  
+      if (res.ok && data.userId) {
         localStorage.setItem("userId", data.userId);
         onLogin();
       } else {
@@ -44,6 +50,7 @@ function Login({ onLogin }) {
     }
   };
   
+
   return (
     <div className="login-box">
       <h2>Login / Signup</h2>

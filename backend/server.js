@@ -7,8 +7,22 @@ const Task = require("./Task");
 const User = require("./user");
 const app = express();
 
+const allowedOrigins = [
+  "https://to-do-coral-rho.vercel.app"
+];
+
+app.use((req, res) => {
+    res.status(404).json({ message: "Route not found", url: req.originalUrl });
+  });
+  
 app.use(cors({
-  origin: "https://to-do-coral-rho.vercel.app",
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
 }));
 
@@ -18,7 +32,6 @@ mongoose.connect("mongodb+srv://user1:task1234@task.v7fw9db.mongodb.net/todo?ret
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.error(err));
 
-  
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
   const user = await User.findOne({ username, password });
@@ -29,17 +42,16 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.post("/register", async (req, res) => {
-    const { username, password } = req.body;
-    const exists = await User.findOne({ username });
-    if (exists) return res.status(400).json({ message: "User already exists" });
-  
-    const newUser = new User({ username, password });
-    await newUser.save();
-  
-    res.json({ success: true, userId: newUser._id });
-  });
-  
+app.post("/signup", async (req, res) => {
+  const { username, password } = req.body;
+  const exists = await User.findOne({ username });
+  if (exists) return res.status(400).json({ message: "User already exists" });
+
+  const newUser = new User({ username, password });
+  await newUser.save();
+  res.json({ success: true, userId: newUser._id });
+});
+
 app.get("/tasks", async (req, res) => {
   const { userId } = req.query;
   const tasks = await Task.find({ userId });
@@ -68,6 +80,7 @@ app.delete("/tasks/:id", async (req, res) => {
   res.json(task);
 });
 
-app.listen(5000, () => {
-  console.log("Server started on port 5000");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
