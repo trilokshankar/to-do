@@ -1,38 +1,59 @@
-import React,{useState}from "react";
+import React, { useState } from "react";
 
-function Login({onLogin}){
-    const[username,setUsername]=useState("");
-    const[password,setPassword]=useState("");
+function Login({ onLogin }) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleLogin = async () => {
-        const res = await fetch("https://todo-production-c449.up.railway.app/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, password }),
-        });
-    if (res.ok){
-        const data =await res.json;
-        onLogin(data.username)
-    }else{
-        res.json({message:"Login failed"});
+  const handleLogin = async () => {
+    const res = await fetch("https://todo-production-c449.up.railway.app/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem("userId", data.userId);
+      onLogin();
+    } else {
+      alert(data.error || "Login failed");
     }
-    }
+  };
 
-return (
-    <div className="container">
-      <h2>Login</h2>
+  const handleSignup = async () => {
+    const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await res.json();
+    if (res.ok) {
+      localStorage.setItem("userId", data.userId);
+      onLogin();
+    } else {
+      alert(data.error || "Signup failed");
+    }
+  };
+
+  return (
+    <div className="login-box">
+      <h2>Login / Signup</h2>
       <input
         placeholder="Username"
         value={username}
-        onChange={e => setUsername(e.target.value)}
-      /><br />
+        onChange={(e) => setUsername(e.target.value)}
+      />
       <input
-        type="password"
         placeholder="Password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
-      /><br />
+        type="password"
+        onChange={(e) => setPassword(e.target.value)}
+      />
       <button onClick={handleLogin}>Login</button>
+      <button onClick={handleSignup}>Signup</button>
     </div>
   );
 }
+
+export default Login;

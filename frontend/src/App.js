@@ -5,7 +5,7 @@ import {
   updateTask,
   deleteTask,
 } from "./task.js";
-import Login from './login.js';
+import Login from './login.js'
 import "./App.css";
 
 function App() {

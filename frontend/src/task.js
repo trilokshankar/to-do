@@ -1,6 +1,7 @@
 const BASE = "https://todo-production-c449.up.railway.app/tasks";
 
-export const getTasks = () => fetch(BASE).then((res) => res.json());
+export const getTasks = (userId) =>
+  fetch(`${BASE}?userId=${userId}`).then((res) => res.json());
 
 export const addTask = (task) =>
   fetch(BASE, {
@@ -17,4 +18,6 @@ export const updateTask = (id, task) =>
   });
 
 export const deleteTask = (id) =>
-  fetch(`${BASE}/${id}`, { method: "DELETE" });
+  fetch(`${BASE}/${id}`, {
+    method: "DELETE",
+  });
