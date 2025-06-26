@@ -5,7 +5,7 @@ import {
   updateTask,
   deleteTask,
 } from "./task";
-import Login from "./login.js"
+import Login from "./login.js";
 import "./App.css";
 
 function App() {
@@ -14,6 +14,8 @@ function App() {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [filterDate, setFilterDate] = useState("");
+  const [showCompleted, setShowCompleted] = useState(false);
+  const [showPending, setShowPending] = useState(false);
 
   useEffect(() => {
     if (userId) loadTasks();
@@ -21,9 +23,9 @@ function App() {
 
   const loadTasks = async () => {
     const res = await getTasks(userId);
-    const formatted = res.map(task => ({
+    const formatted = res.map((task) => ({
       ...task,
-      date: task.date?.slice(0, 10)
+      date: task.date?.slice(0, 10),
     }));
     setTasks(formatted);
   };
@@ -56,17 +58,23 @@ function App() {
     setUserId(null);
   };
 
-  const filteredTasks = filterDate
-    ? tasks.filter((task) => task.date === filterDate)
-    : tasks;
+  const filteredTasks = tasks.filter((task) => {
+    const matchesDate = filterDate ? task.date === filterDate : true;
+
+    if (showCompleted) return matchesDate && task.completed;
+    if (showPending) return matchesDate && !task.completed;
+
+    return matchesDate;
+  });
 
   if (!userId) return <Login onLogin={(id) => setUserId(id)} />;
 
   return (
     <div className="container">
-      <h1>To-Do List</h1>
-      <button onClick={handleLogout}>Logout</button>
-
+      <div className="header">
+  <h1>To-Do List</h1>
+  <button className="logout-button" onClick={handleLogout}>Logout</button>
+</div>
       <div className="input-area">
         <input
           type="text"
@@ -89,6 +97,26 @@ function App() {
           onChange={(e) => setFilterDate(e.target.value)}
         />
         <button onClick={() => setFilterDate("")}>Clear Filter</button>
+      </div>
+
+      <div className="filter-area">
+        <button
+          onClick={() => {
+            setShowCompleted(!showCompleted);
+            setShowPending(false);
+          }}
+        >
+          Show Completed Tasks
+        </button>
+
+        <button
+          onClick={() => {
+            setShowPending(!showPending);
+            setShowCompleted(false);
+          }}
+        >
+          Show Pending Tasks
+        </button>
       </div>
 
       <div className="task-list">
