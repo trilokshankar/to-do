@@ -1,10 +1,17 @@
 import React, { useState } from "react";
+import ForgotPassword from "./ForgotPassword"; 
 
 function Login({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showReset, setShowReset] = useState(false); 
 
   const handleLogin = async () => {
+    if (!username || !password) {
+      alert("Please enter both username and password.");
+      return;
+    }
+
     try {
       const res = await fetch("https://todo-production-c449.up.railway.app/login", {
         method: "POST",
@@ -13,7 +20,8 @@ function Login({ onLogin }) {
       });
 
       const data = await res.json();
-      if (res.ok) {
+
+      if (res.ok && data.userId) {
         localStorage.setItem("userId", data.userId);
         onLogin(data.userId);
       } else {
@@ -29,27 +37,31 @@ function Login({ onLogin }) {
       alert("Please enter both username and password.");
       return;
     }
+
     try {
       const res = await fetch("https://todo-production-c449.up.railway.app/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
-  
+
       const data = await res.json();
-      console.log("Signup response:", data);
-  
+
       if (res.ok && data.userId) {
         localStorage.setItem("userId", data.userId);
         onLogin(data.userId);
       } else {
-        alert(data.message || "Signup Successfull now u can login");
+        alert(data.message || "Signup successful. You can now log in.");
       }
     } catch (error) {
       alert("Signup error: " + error.message);
     }
   };
-  
+
+ 
+  if (showReset) {
+    return <ForgotPassword goBack={() => setShowReset(false)} />;
+  }
 
   return (
     <div className="login-box">
@@ -61,12 +73,13 @@ function Login({ onLogin }) {
       />
       <input
         placeholder="Password"
-        value={password}
         type="password"
+        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={handleLogin}>Login</button>
       <button onClick={handleSignup}>Signup</button>
+      <button onClick={() => setShowReset(true)}>Forgot Password?</button> {/* optional */}
     </div>
   );
 }

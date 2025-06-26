@@ -35,9 +35,20 @@ app.post("/signup", async (req, res) => {
   if (exists) return res.status(400).json({ message: "User already exists" });
   const newUser = new User({ username, password });
   await newUser.save();
-  res.json({ success: true, userId: newUser._id }); // ✅ Added userId here
+  res.json({ success: true, userId: newUser._id }); 
 });
 
+app.post("/forgot-password", async (req, res) => {
+    const { username, newPassword } = req.body;
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.password = newPassword;
+    await user.save();
+    res.json({ success: true, message: "Password updated successfully" });
+  });
+  
 app.get("/tasks", async (req, res) => {
   const { userId } = req.query;
   const tasks = await Task.find({ userId });
@@ -64,6 +75,20 @@ app.delete("/tasks/:id", async (req, res) => {
   const task = await Task.findById(req.params.id);
   await task.deleteOne();
   res.json(task);
+});
+
+app.post("/forgot-password", async (req, res) => {
+  const { username, newPassword } = req.body;
+  const user = await User.findOne({ username });
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  user.password = newPassword;
+  await user.save();
+
+  res.json({ success: true, message: "Password updated successfully" });
 });
 
 app.get("/", (req, res) => {
