@@ -15,7 +15,7 @@ function Login({ onLogin }) {
       const data = await res.json();
       if (res.ok) {
         localStorage.setItem("userId", data.userId);
-        onLogin();
+        onLogin(data.userId);
       } else {
         alert(data.message || "Login failed");
       }
@@ -41,7 +41,7 @@ function Login({ onLogin }) {
   
       if (res.ok && data.userId) {
         localStorage.setItem("userId", data.userId);
-        onLogin();
+        onLogin(data.userId);
       } else {
         alert(data.message || "Signup Successfull now u can login");
       }
