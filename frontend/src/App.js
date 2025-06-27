@@ -32,10 +32,15 @@ function App() {
 
   const handleAdd = async () => {
     if (!title.trim() || !date) return;
-    await addTask({ title, date, completed: false, userId });
-    setTitle("");
-    setDate("");
-    loadTasks();
+    try{
+      await addTask({ title, date, completed: false, userId });
+      setTitle("");
+      setDate("");
+      loadTasks();
+      alert("Task created successfully");
+    }catch{
+      alert("Failed to create Task")
+    }
   };
 
   const handleDelete = async (id) => {
@@ -117,6 +122,16 @@ function App() {
         >
           Show Pending Tasks
         </button>
+
+        <button
+          onClick={() => {
+            setShowPending(false);
+            setShowCompleted(false);
+          }}
+        >
+          Show All Tasks
+        </button>
+
       </div>
 
       <div className="task-list">
