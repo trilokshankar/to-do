@@ -83,7 +83,6 @@ body {
   cursor: pointer;
 }
 
-/* Task List */
 .task-list {
   display: flex;
   flex-direction: column;
@@ -252,4 +251,4 @@ body {
   .edit-input {
     font-size: 0.95rem;
   }
-}
+};
