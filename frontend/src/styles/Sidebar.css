@@ -1,72 +1,74 @@
 .sidebar {
-    width: 220px;
-    background-color: white;
-    padding: 2rem 1rem;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  width: 220px;
+  background-color: white;
+  padding: 2rem 1rem;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.sidebar h2 {
+  text-align: center;
+  color: #4a90e2;
+  margin-bottom: 2rem;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar nav a {
+  text-decoration: none;
+  color: #333;
+  padding: 0.75rem 1rem;
+  margin: 0.25rem 0;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.sidebar nav a:hover {
+  background-color: #f0f4ff;
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  border-radius: 10px;
+  padding: 0.5rem;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+
+.logout-button:hover {
+  background-color: #e03a3a;
+}
+
+/* Mobile topbar layout */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: none;
+    border-bottom: 1px solid #ddd;
   }
-  
+
   .sidebar h2 {
-    text-align: center;
-    color: #4a90e2;
-    margin-bottom: 2rem;
+    display: none;
   }
-  
+
   .sidebar nav {
-    display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 8px;
   }
-  
-  .sidebar nav a {
-    text-decoration: none;
-    color: #333;
-    padding: 0.75rem 1rem;
-    margin: 0.25rem 0;
-    border-radius: 10px;
-    transition: background 0.2s ease;
-  }
-  
-  .sidebar nav a:hover {
-    background-color: #f0f4ff;
-  }
-  
+
   .logout-button {
-    background-color: #ff4d4d;
-    margin-top: 2rem;
-    border-radius: 10px;
-    padding: 0.5rem;
-    color: white;
-    border: none;
-    cursor: pointer;
+    margin-top: 0;
+    padding: 0.5rem 0.75rem;
   }
-  
-  .logout-button:hover {
-    background-color: #e03a3a;
-  }
-  
-  @media (max-width: 768px) {
-    .sidebar {
-      width: 100%;
-      flex-direction: row;
-      justify-content: space-around;
-      padding: 1rem;
-      box-shadow: none;
-      border-bottom: 1px solid #ddd;
-    }
-  
-    .sidebar h2 {
-      display: none;
-    }
-  
-    .sidebar nav {
-      flex-direction: row;
-      gap: 10px;
-    }
-  
-    .logout-button {
-      margin-top: 0;
-    }
-  }
-  
+}
