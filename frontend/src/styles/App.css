@@ -1,4 +1,4 @@
-/* General body & layout */
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -19,7 +19,6 @@ body {
   background-color: #e6f0ff;
 }
 
-/* Task box styling */
 .task-box {
   background-color: white;
   border-radius: 20px;
@@ -55,7 +54,6 @@ body {
   color: gray;
 }
 
-/* Inputs and buttons */
 input[type="text"],
 input[type="date"] {
   padding: 0.5rem;
@@ -81,7 +79,6 @@ button:hover {
   background-color: #357acc;
 }
 
-/* Mobile view adjustments */
 @media (max-width: 768px) {
   .app-layout {
     flex-direction: column;
