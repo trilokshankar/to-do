@@ -54,6 +54,13 @@ body {
   color: gray;
 }
 
+.input-area {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
 input[type="text"],
 input[type="date"] {
   padding: 0.5rem;
