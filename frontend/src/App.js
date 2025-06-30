@@ -15,7 +15,7 @@ import PendingTasks from "./pages/PendingTasks";
 import CreateTask from "./pages/CreateTask";
 import DeleteTask from "./pages/DeleteTask";
 import FilterByDate from "./pages/FilterbyDate"; 
-import "./App.css";
+import "./styles/App.css";
 
 function AppWrapper() {
   const [userId, setUserId] = useState(localStorage.getItem("userId"));
