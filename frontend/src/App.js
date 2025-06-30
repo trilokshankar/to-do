@@ -44,8 +44,13 @@ function App() {
   };
 
   const handleDelete = async (id) => {
-    await deleteTask(id);
-    loadTasks();
+    try{
+      await deleteTask(id);
+      loadTasks();
+      alert("Task deleted successfully");
+    }catch{
+      
+    }
   };
 
   const handleToggle = async (task) => {
