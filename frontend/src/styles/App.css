@@ -33,10 +33,6 @@ body {
   transition: transform 0.2s ease;
 }
 
-.task-box:hover {
-  transform: scale(1.01);
-}
-
 .task-title {
   font-weight: 500;
   flex: 1;

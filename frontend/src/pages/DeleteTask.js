@@ -15,7 +15,7 @@ function DeleteTask({ userId }) {
 
   const handleDelete = async (id) => {
     await deleteTask(id);
-    alert("Task deleted");
+    alert("Task deleted successfully");
     load();
   };
 
@@ -24,7 +24,8 @@ function DeleteTask({ userId }) {
       <h2>Delete Task</h2>
       {tasks.map((task) => (
         <div key={task._id} className="task-box">
-          <span>{task.title}</span> - <span>{task.date}</span>
+          <div className="task-title">{task.title}</div>
+          {task.date && <div className="task-date">{task.date}</div>}
           <button onClick={() => handleDelete(task._id)}>Delete</button>
         </div>
       ))}
