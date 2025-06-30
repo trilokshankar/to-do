@@ -79,7 +79,7 @@ function Login({ onLogin }) {
       />
       <button onClick={handleLogin}>Login</button>
       <button onClick={handleSignup}>Signup</button>
-      <button onClick={() => setShowReset(true)}>Forgot Password?</button> {/* optional */}
+      <button onClick={() => setShowReset(true)}>Forgot Password?</button> 
     </div>
   );
 }
