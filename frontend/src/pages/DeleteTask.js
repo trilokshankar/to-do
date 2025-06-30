@@ -22,13 +22,20 @@ function DeleteTask({ userId }) {
   return (
     <>
       <h2>Delete Task</h2>
-      {tasks.map((task) => (
-        <div key={task._id} className="task-box">
-          <div className="task-title">{task.title}</div>
-          {task.date && <div className="task-date">{task.date}</div>}
-          <button onClick={() => handleDelete(task._id)}>Delete</button>
-        </div>
-      ))}
+
+      {tasks.length === 0 ? (
+        <p style={{ textAlign: "center", color: "#777", marginTop: "2rem" }}>
+          No tasks here!
+        </p>
+      ) : (
+        tasks.map((task) => (
+          <div key={task._id} className="task-box">
+            <div className="task-title">{task.title}</div>
+            {task.date && <div className="task-date">{task.date}</div>}
+            <button onClick={() => handleDelete(task._id)}>Delete</button>
+          </div>
+        ))
+      )}
     </>
   );
 }

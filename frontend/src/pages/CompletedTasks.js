@@ -22,7 +22,12 @@ function CompletedTasks({ userId }) {
   return (
     <>
       <h2>Completed Tasks</h2>
-      {tasks.map((task) => (
+      {tasks.length === 0 ? (
+        <p style={{ textAlign: "center", color: "#777", marginTop: "2rem" }}>
+          No tasks here!
+        </p>
+      ) : (
+    tasks.map((task) => (
         <div key={task._id} className="task-box">
           <input
             type="checkbox"
@@ -32,7 +37,8 @@ function CompletedTasks({ userId }) {
           <span className={task.completed ? "done" : ""}>{task.title}</span>
           <span style={{ marginLeft: "10px" }}>{task.date}</span>
         </div>
-      ))}
+      ))
+    )}
     </>
   );
 }

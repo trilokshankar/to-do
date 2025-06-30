@@ -21,17 +21,24 @@ function AllTasks({ userId }) {
   return (
     <>
       <h2>All Tasks</h2>
-      {tasks.map((task) => (
-        <div key={task._id} className="task-box">
-          <input
-            type="checkbox"
-            checked={task.completed}
-            onChange={() => handleToggle(task)}
-          />
-          <span className={task.completed ? "done" : ""}>{task.title}</span>
-          <span style={{ marginLeft: "10px" }}>{task.date}</span>
-        </div>
-      ))}
+
+      {tasks.length === 0 ? (
+        <p style={{ textAlign: "center", color: "#777", marginTop: "2rem" }}>
+          No tasks here!
+        </p>
+      ) : (
+        tasks.map((task) => (
+          <div key={task._id} className="task-box">
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => handleToggle(task)}
+            />
+            <span className={task.completed ? "done" : ""}>{task.title}</span>
+            <span style={{ marginLeft: "10px" }}>{task.date}</span>
+          </div>
+        ))
+      )}
     </>
   );
 }

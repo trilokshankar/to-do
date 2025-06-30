@@ -10,7 +10,7 @@ function CreateTask({ userId }) {
     await addTask({ title, date, completed: false, userId });
     setTitle("");
     setDate("");
-    alert("Task Created!");
+    alert("Task Created Successfully");
   };
 
   return (

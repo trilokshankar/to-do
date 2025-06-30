@@ -13,26 +13,39 @@ function FilterByDate({ userId }) {
 
   const handleToggle = async (task) => {
     await updateTask(task._id, { ...task, completed: !task.completed });
-    handleFilter();
+    handleFilter(); 
   };
 
   return (
     <>
       <h2>Filter Tasks by Date</h2>
-      <input type="date" value={filterDate} onChange={(e) => setFilterDate(e.target.value)} />
-      <button onClick={handleFilter}>Filter</button>
 
-      {tasks.map((task) => (
-        <div key={task._id} className="task-box">
-          <input
-            type="checkbox"
-            checked={task.completed}
-            onChange={() => handleToggle(task)}
-          />
-          <span className={task.completed ? "done" : ""}>{task.title}</span>
-          <span style={{ marginLeft: "10px" }}>{task.date}</span>
-        </div>
-      ))}
+      <div className="input-area">
+        <input
+          type="date"
+          value={filterDate}
+          onChange={(e) => setFilterDate(e.target.value)}
+        />
+        <button onClick={handleFilter}>Filter</button>
+      </div>
+
+      {tasks.length === 0 ? (
+        <p>
+          No tasks here!
+        </p>
+      ) : (
+        tasks.map((task) => (
+          <div key={task._id} className="task-box">
+            <input
+              type="checkbox"
+              checked={task.completed}
+              onChange={() => handleToggle(task)}
+            />
+            <span className={task.completed ? "done" : ""}>{task.title}</span>
+            <span style={{ marginLeft: "10px" }}>{task.date}</span>
+          </div>
+        ))
+      )}
     </>
   );
 }
