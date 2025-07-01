@@ -1,74 +1,69 @@
-.sidebar {
-  width: 220px;
+body {
+  background-color: #e6e9ff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-wrapper {
   background-color: white;
-  padding: 2rem 1rem;
-  box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+  padding: 1rem;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
 }
 
-.sidebar h2 {
+.navbar-button {
+  background-color: #f1f3ff;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  min-width: 100px;
   text-align: center;
-  color: #4a90e2;
-  margin-bottom: 2rem;
 }
 
-.sidebar nav {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar nav a {
-  text-decoration: none;
-  color: #333;
-  background-color: #f0f4ff;
-  padding: 0.75rem 1rem;
-  margin: 0.25rem 0;
-  border-radius: 10px;
-  transition: background 0.2s ease;
-}
-
-.sidebar nav a:hover {
-  background-color: #4a90e2;
-}
-
-.logout-button {
-  background-color: #4a90e2;
-  border-radius: 10px;
-  padding: 0.5rem;
+.logout {
+  background-color: #4f93ff;
   color: white;
   border: none;
+  padding: 10px 16px;
+  border-radius: 12px;
+  font-size: 16px;
   cursor: pointer;
-  margin-top: 2rem;
-}
-.logout-button:hover{
-  background-color: red;
 }
 
+.container {
+  max-width: 400px;
+  margin: 2rem auto;
+  border-radius: 40px;
+  padding: 2rem;
+  background-color: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
 
-@media (max-width: 768px) {
-  .sidebar {
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
+.task-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 600px) {
+  .nav-wrapper {
+    flex-direction: column;
     align-items: center;
-    padding: 1rem;
-    box-shadow: none;
-    border-bottom: 1px solid #ddd;
   }
 
-  .sidebar h2 {
-    display: none;
+  .container {
+    width: 90%;
   }
 
-  .sidebar nav {
-    flex-direction: row;
-    gap: 8px;
-  }
-
-  .logout-button {
-    margin-top: 0;
-    padding: 0.5rem 0.75rem;
+  .navbar-button, .logout {
+    width: 100%;
+    text-align: center;
   }
 }
