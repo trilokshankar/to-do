@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTasks, deleteTask } from "../task";
+import { getTasks, deleteTask } from "../bill";
 
 function DeleteTask({ userId }) {
   const [tasks, setTasks] = useState([]);

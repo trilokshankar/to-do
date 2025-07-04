@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getTasks, updateTask } from "../task";
+import { getTasks, updateTask } from "../bill";
 
 function PendingTasks({ userId }) {
   const [tasks, setTasks] = useState([]);
